@@ -1,0 +1,28 @@
+name: Daily Auto-Commit
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: 24f3000363@ds.study.iitm.ac.in
+      run: |
+        echo "Automated commit by GitHub Actions" > timestamp.txt
+        date >> timestamp.txt
+        
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "Daily auto-commit: $(date -u)"
+        file_pattern: timestamp.txt
